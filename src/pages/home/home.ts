@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { leave } from '@angular/core/src/profile/wtf_impl';
 
 @Component({
   selector: 'page-home',
@@ -74,17 +73,16 @@ export class HomePage {
     }
   ];
 
-  public showReorder: boolean = false;
   private currentAnimal;
   public result: string;
+  public showReorder = false;
 
-  constructor(public navCtrl: NavController) {
-
-  }
+  constructor(public navCtrl: NavController) { }
 
   /**
-    * choix aléatoir d'un animal
-    */
+   * Choix aléatoire d'un animal
+   * si aucun choix préalable
+   */
   pickAnimal() {
     let pos;
     let animal;
@@ -102,9 +100,10 @@ export class HomePage {
    * Lecture d'un son
    */
   playSound() {
-    //choix d'un annimal
-    this.result = null;
 
+    this.result = "";
+
+    //choix d'un animal
     this.currentAnimal = this.pickAnimal();
 
 
@@ -113,28 +112,36 @@ export class HomePage {
     audio.src = 'assets' + this.currentAnimal.file;
     audio.load();
 
-    // lecture du son
+    //lecture du son
     audio.play();
   }
 
-  //deviner l'animall en fonction du crie
-  clickAnimal(animalName) {
+  /**
+   * Deviner l'animal en fonction de son cri
+   * @param pos 
+   */
+  guess(animalName) {
+
+    console.log(this.currentAnimal);
+    console.log(animalName);
+
+
+    //est ce que l'on a joué un son
     if (this.currentAnimal) {
-      if (animalName != this.currentAnimal.title) {
-        this.result = " Essaie encore";
-        let buzzer = new Audio();
-        buzzer.src = 'assets/sounds/buzzer.mp3';
-        buzzer.load();
-        buzzer.play();
-      } else {
-        this.result = " Bravo tu as trouvé";
-        let bravo = new Audio();
-        bravo.src = 'assets/sounds/applause.mp3';
-        bravo.load();
-        bravo.play();
+      //est ce que l'on a choisi le bon animal
+      if (animalName == this.currentAnimal.title) {
+        this.result = "Gagné";
+        //Réinitialisation du choix pour faire un nouveau jeu
         this.currentAnimal = null;
+      } else {
+        this.result = "Essaie encore";
       }
     }
+
+  }
+
+  activateReorder() {
+    this.showReorder = !this.showReorder;
   }
 
 }

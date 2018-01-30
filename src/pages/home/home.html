@@ -3,9 +3,10 @@
     <ion-title>
       Animal-app
     </ion-title>
+
     <ion-buttons end>
       <button ion-button (click)="showReorder = ! showReorder">
-        <ion-icon name='funnel'></ion-icon>
+        <ion-icon name="funnel"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -14,14 +15,12 @@
 <ion-content padding>
   <ion-list>
     <ion-item-group [reorder]="showReorder" (ionItemReorder)="$event.applyTo(animals)">
-      <ion-item *ngFor='let animal of animals; let pos= index' (click)='clickAnimal(animal.title)'>
-
-        <h2>{{ animal.title}}</h2>
-
-        <ion-thumbnail item-left>
-          <img src="/assets/{{animal.image}}" />
+      <ion-item *ngFor="let animal of animals; let pos=index">
+        <ion-thumbnail item-left (click)="guess(animal.title)">
+          <img src="/assets/{{animal.image}}">
         </ion-thumbnail>
-
+        <h2>{{ animal.title }}</h2>
+        <p>{{animal.desc}}</p>
       </ion-item>
     </ion-item-group>
   </ion-list>
@@ -30,7 +29,7 @@
 <ion-footer padding>
   <ion-title class='message'>{{result}}</ion-title>
   <button ion-button full round color='danger' (click)='playSound()'>
-    Jouer le son 
+    Jouer le son
     <ion-icon name="game-controller-b"></ion-icon>
   </button>
 </ion-footer>
