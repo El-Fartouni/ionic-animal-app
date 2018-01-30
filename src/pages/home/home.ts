@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { leave } from '@angular/core/src/profile/wtf_impl';
 
 @Component({
   selector: 'page-home',
@@ -73,15 +74,38 @@ export class HomePage {
     }
   ];
 
+  private currentPosition: number;
+
   constructor(public navCtrl: NavController) {
 
   }
 
   // Choix aléatoire d'un animal
-  pickAnimal() {
+  // si aucun choi préalable
+  pickAnimalPosition() {
     //Récupération d'un indice aléatoire
-    let pos = Math.floor(Math.random() * this.animals.length);
-  return pos;
+    let pos;
+    if (!this.currentPosition) {
+      pos = Math.floor(Math.random() * this.animals.length);
+    } else {
+      pos = this.currentPosition;
+    }
+    return pos;
+  }
+
+  // Lecture d'un son
+  playSound() {
+    // Choix d'un animal
+    this.currentPosition = this.pickAnimalPosition();
+    let choosenAnimal = this.animals[this.currentPosition];
+
+    // Chargement du son
+    let audio = new Audio();
+    audio.src = "assets" + choosenAnimal.file; //visibke dans .ts dans le json
+    audio.load();
+
+    // lecture du son
+    audio.play();
   }
 
 }
