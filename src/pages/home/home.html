@@ -2,16 +2,35 @@
   <ion-navbar>
     <ion-title>
       Animal-app
-      <!-- Advanced: explicity set the icon for each platform -->
-      <ion-icon ios="logo-octocat" md="logo-octocat"></ion-icon>
     </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="showReorder = ! showReorder">
+        <ion-icon name='funnel'></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-list>
+    <ion-item-group [reorder]="showReorder" (ionItemReorder)="$event.applyTo(animals)">
+      <ion-item *ngFor='let animal of animals; let pos= index' (click)='clickAnimal(animal.title)'>
 
+        <h2>{{ animal.title}}</h2>
+
+        <ion-thumbnail item-left>
+          <img src="/assets/{{animal.image}}" />
+        </ion-thumbnail>
+
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
 </ion-content>
 
 <ion-footer padding>
-  <button ion-button (click)="playSound()" FULL>Jouer le son</button>
+  <ion-title class='message'>{{result}}</ion-title>
+  <button ion-button full round color='danger' (click)='playSound()'>
+    Jouer le son 
+    <ion-icon name="game-controller-b"></ion-icon>
+  </button>
 </ion-footer>
